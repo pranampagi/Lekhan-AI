@@ -41,3 +41,7 @@ npm-debug.log*
 
 # HuggingFace model cache
 models/
+
+# UV
+pyproject.toml
+uv.lock
