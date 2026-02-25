@@ -7,6 +7,7 @@ from database import engine, Base, get_db, SessionLocal
 from models import Document
 from utils import extract_text
 from ml_service import generate_summary
+from classifier import classify_document
 
 # Create database tables on startup
 Base.metadata.create_all(bind=engine)
@@ -45,6 +46,10 @@ def process_document(document_id: int, file_path: str):
         # Generate summary using the BART model
         summary = generate_summary(raw_text)
         document.summary = summary
+
+        # Classify the document using XGBoost
+        classification = classify_document(raw_text)
+        document.category = classification["category"]
 
         db.commit()
     except Exception as e:
