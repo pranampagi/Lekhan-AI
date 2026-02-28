@@ -1,9 +1,15 @@
 <script setup></script>
 
 <template>
-  <div id="app">
-    <h1>Lekhan-AI</h1>
-    <p>Administrative Document Assistant</p>
+  <div class="container py-4">
+    <header class="mb-4">
+      <h1 class="display-5 fw-bold text-primary">Lekhan-AI</h1>
+      <p class="text-muted">Administrative Document Assistant</p>
+    </header>
+
+    <main>
+      <!-- Components will be added here in later commits -->
+    </main>
   </div>
 </template>
 
