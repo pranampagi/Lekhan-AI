@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import Dashboard from './components/Dashboard.vue'
+</script>
 
 <template>
   <div class="container py-4">
@@ -8,7 +10,7 @@
     </header>
 
     <main>
-      <!-- Components will be added here in later commits -->
+      <Dashboard />
     </main>
   </div>
 </template>

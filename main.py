@@ -109,6 +109,25 @@ async def upload_document(
         "size": len(contents),
     }
 
+@app.get("/documents")
+async def list_documents(db: Session = Depends(get_db)):
+    """Retrieve all processed documents.
+
+    Returns a list of all document records in the database.
+    """
+    documents = db.query(Document).all()
+    return [
+        {
+            "id": doc.id,
+            "filename": doc.filename,
+            "summary": doc.summary,
+            "category": doc.category,
+            "upload_date": doc.upload_date,
+            "has_text": doc.original_text is not None,
+        }
+        for doc in documents
+    ]
+
 
 @app.get("/documents/{document_id}")
 async def get_document(document_id: int, db: Session = Depends(get_db)):
@@ -128,3 +147,4 @@ async def get_document(document_id: int, db: Session = Depends(get_db)):
         "upload_date": document.upload_date,
         "has_text": document.original_text is not None,
     }
+
