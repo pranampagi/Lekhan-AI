@@ -1,5 +1,14 @@
 <script setup>
+import { ref } from 'vue'
 import Dashboard from './components/Dashboard.vue'
+import Uploader from './components/Uploader.vue'
+
+const dashboardKey = ref(0)
+
+function refreshDashboard() {
+  // Force Dashboard to re-fetch stats after a new upload
+  dashboardKey.value++
+}
 </script>
 
 <template>
@@ -10,7 +19,11 @@ import Dashboard from './components/Dashboard.vue'
     </header>
 
     <main>
-      <Dashboard />
+      <Dashboard :key="dashboardKey" />
+
+      <div class="mt-4">
+        <Uploader @uploaded="refreshDashboard" />
+      </div>
     </main>
   </div>
 </template>
