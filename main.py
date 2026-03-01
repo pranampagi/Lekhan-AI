@@ -1,6 +1,7 @@
 import os
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from database import engine, Base, get_db, SessionLocal
@@ -20,6 +21,15 @@ app = FastAPI(
     title="Lekhan-AI",
     description="Administrative Document Assistant — Summarize and classify official documents using AI.",
     version="0.1.0",
+)
+
+# Allow the Vue.js frontend (port 5173) to make requests to the API (port 8000)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
