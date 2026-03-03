@@ -2,12 +2,18 @@
 import { ref } from 'vue'
 import Dashboard from './components/Dashboard.vue'
 import Uploader from './components/Uploader.vue'
+import DocumentList from './components/DocumentList.vue'
 
 const dashboardKey = ref(0)
+const documentListRef = ref(null)
 
 function refreshDashboard() {
   // Force Dashboard to re-fetch stats after a new upload
   dashboardKey.value++
+  // Also refresh the document list
+  if (documentListRef.value) {
+    documentListRef.value.fetchDocuments()
+  }
 }
 </script>
 
@@ -23,6 +29,10 @@ function refreshDashboard() {
 
       <div class="mt-4">
         <Uploader @uploaded="refreshDashboard" />
+      </div>
+
+      <div class="mt-4">
+        <DocumentList ref="documentListRef" />
       </div>
     </main>
   </div>
