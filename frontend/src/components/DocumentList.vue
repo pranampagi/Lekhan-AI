@@ -17,7 +17,9 @@ async function fetchDocuments() {
 
 function formatDate(dateString) {
   if (!dateString) return '—'
-  const date = new Date(dateString)
+  // Append 'Z' to ensure the naive timestamp from the backend is treated as UTC
+  // so the browser correctly converts it to the user's local timezone (IST).
+  const date = new Date(dateString + 'Z')
   return date.toLocaleDateString('en-IN', {
     year: 'numeric',
     month: 'short',
