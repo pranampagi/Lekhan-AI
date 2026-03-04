@@ -3,9 +3,11 @@ import { ref } from 'vue'
 import Dashboard from './components/Dashboard.vue'
 import Uploader from './components/Uploader.vue'
 import DocumentList from './components/DocumentList.vue'
+import DocumentModal from './components/DocumentModal.vue'
 
 const dashboardKey = ref(0)
 const documentListRef = ref(null)
+const selectedDocument = ref(null)
 
 function refreshDashboard() {
   // Force Dashboard to re-fetch stats after a new upload
@@ -14,6 +16,14 @@ function refreshDashboard() {
   if (documentListRef.value) {
     documentListRef.value.fetchDocuments()
   }
+}
+
+function handleSelectDocument(doc) {
+  selectedDocument.value = doc
+}
+
+function handleCloseModal() {
+  selectedDocument.value = null
 }
 </script>
 
@@ -32,8 +42,14 @@ function refreshDashboard() {
       </div>
 
       <div class="mt-4">
-        <DocumentList ref="documentListRef" />
+        <DocumentList ref="documentListRef" @select="handleSelectDocument" />
       </div>
+
+      <!-- Hidden Modal Component -->
+      <DocumentModal 
+        :document="selectedDocument" 
+        @close="handleCloseModal" 
+      />
     </main>
   </div>
 </template>
