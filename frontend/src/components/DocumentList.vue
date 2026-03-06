@@ -1,10 +1,27 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 
 const API_URL = 'http://localhost:8000'
 
 const documents = ref([])
+const searchQuery = ref('')
+const selectedCategory = ref('')
+
+const categories = ['Circular', 'Memo', 'Notification']
+
+const filteredDocuments = computed(() => {
+  return documents.value.filter((doc) => {
+    const matchesSearch =
+      !searchQuery.value ||
+      doc.filename.toLowerCase().includes(searchQuery.value.toLowerCase())
+
+    const matchesCategory =
+      !selectedCategory.value || doc.category === selectedCategory.value
+
+    return matchesSearch && matchesCategory
+  })
+})
 
 async function fetchDocuments() {
   try {
@@ -42,6 +59,11 @@ function getCategoryBadgeClass(category) {
   }
 }
 
+function clearFilters() {
+  searchQuery.value = ''
+  selectedCategory.value = ''
+}
+
 onMounted(() => {
   fetchDocuments()
 })
@@ -54,9 +76,45 @@ defineExpose({ fetchDocuments })
     <div class="card-body">
       <h5 class="card-title mb-3">Processed Documents</h5>
 
-      <div v-if="documents.length === 0" class="text-center text-muted py-4">
-        <p>No documents have been processed yet.</p>
-        <p class="small">Upload a document to get started.</p>
+      <!-- Search and Filter Controls -->
+      <div class="row g-2 mb-3">
+        <div class="col-md-6">
+          <input
+            v-model="searchQuery"
+            type="text"
+            class="form-control"
+            placeholder="Search by filename..."
+          />
+        </div>
+        <div class="col-md-4">
+          <select v-model="selectedCategory" class="form-select">
+            <option value="">All Categories</option>
+            <option v-for="cat in categories" :key="cat" :value="cat">
+              {{ cat }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button
+            class="btn btn-outline-secondary w-100"
+            @click="clearFilters"
+            :disabled="!searchQuery && !selectedCategory"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <div v-if="filteredDocuments.length === 0" class="text-center text-muted py-4">
+        <p v-if="documents.length === 0">No documents have been processed yet.</p>
+        <p v-else>No documents match your search criteria.</p>
+        <p class="small">
+          <span v-if="documents.length === 0">Upload a document to get started.</span>
+          <span v-else>
+            <a href="#" class="text-decoration-none" @click.prevent="clearFilters">Clear filters</a>
+            to see all documents.
+          </span>
+        </p>
       </div>
 
       <div v-else class="table-responsive">
@@ -72,7 +130,7 @@ defineExpose({ fetchDocuments })
           </thead>
           <tbody>
             <tr
-              v-for="doc in documents"
+              v-for="doc in filteredDocuments"
               :key="doc.id"
               style="cursor: pointer;"
               @click="$emit('select', doc)"
@@ -95,6 +153,10 @@ defineExpose({ fetchDocuments })
             </tr>
           </tbody>
         </table>
+
+        <p class="text-muted small mb-0">
+          Showing {{ filteredDocuments.length }} of {{ documents.length }} document(s)
+        </p>
       </div>
     </div>
   </div>
