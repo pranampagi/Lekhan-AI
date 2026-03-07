@@ -5,6 +5,7 @@ import axios from 'axios'
 const API_URL = 'http://localhost:8000'
 
 const documents = ref([])
+const isLoading = ref(true)
 const searchQuery = ref('')
 const selectedCategory = ref('')
 
@@ -24,11 +25,14 @@ const filteredDocuments = computed(() => {
 })
 
 async function fetchDocuments() {
+  isLoading.value = true
   try {
     const response = await axios.get(`${API_URL}/documents`)
     documents.value = response.data
   } catch (error) {
     console.error('Failed to fetch documents:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -75,6 +79,14 @@ defineExpose({ fetchDocuments })
   <div class="card border-0 shadow-sm">
     <div class="card-body">
       <h5 class="card-title mb-3">Processed Documents</h5>
+
+      <!-- Loading Spinner -->
+      <div v-if="isLoading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading documents...</span>
+        </div>
+        <p class="text-muted mt-2">Loading documents...</p>
+      </div>
 
       <!-- Search and Filter Controls -->
       <div class="row g-2 mb-3">
