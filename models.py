@@ -14,7 +14,7 @@ class Document(Base):
     filename = Column(String(255), nullable=False)
     original_text = Column(Text, nullable=True)
     summary = Column(Text, nullable=True)
-    category = Column(String(50), nullable=True)
+    category = Column(String(50), nullable=True, index=True)
     upload_date = Column(DateTime, default=datetime.utcnow)
 
     def __repr__(self):
