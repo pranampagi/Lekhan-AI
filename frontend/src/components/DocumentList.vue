@@ -90,25 +90,25 @@ defineExpose({ fetchDocuments })
 
       <!-- Search and Filter Controls -->
       <div class="row g-2 mb-3">
-        <div class="col-md-6">
+        <div class="col-12 col-md-6">
           <input
             v-model="searchQuery"
             type="text"
-            class="form-control"
+            class="form-control form-control-sm form-control-md"
             placeholder="Search by filename..."
           />
         </div>
-        <div class="col-md-4">
-          <select v-model="selectedCategory" class="form-select">
+        <div class="col-8 col-md-4">
+          <select v-model="selectedCategory" class="form-select form-select-sm form-select-md">
             <option value="">All Categories</option>
             <option v-for="cat in categories" :key="cat" :value="cat">
               {{ cat }}
             </option>
           </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-4 col-md-2">
           <button
-            class="btn btn-outline-secondary w-100"
+            class="btn btn-outline-secondary btn-sm btn-md w-100"
             @click="clearFilters"
             :disabled="!searchQuery && !selectedCategory"
           >

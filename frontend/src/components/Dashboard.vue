@@ -38,7 +38,7 @@ onMounted(() => {
 <template>
   <div class="row g-4">
     <!-- Total Documents Card -->
-    <div class="col-md-6 col-lg-3">
+    <div class="col-6 col-md-6 col-lg-3">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body text-center">
           <div v-if="isLoading" class="py-2">
@@ -53,7 +53,7 @@ onMounted(() => {
     </div>
 
     <!-- Circulars Card -->
-    <div class="col-md-6 col-lg-3">
+    <div class="col-6 col-md-6 col-lg-3">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body text-center">
           <div v-if="isLoading" class="py-2">
@@ -68,7 +68,7 @@ onMounted(() => {
     </div>
 
     <!-- Memos Card -->
-    <div class="col-md-6 col-lg-3">
+    <div class="col-6 col-md-6 col-lg-3">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body text-center">
           <div v-if="isLoading" class="py-2">
@@ -83,7 +83,7 @@ onMounted(() => {
     </div>
 
     <!-- Notifications Card -->
-    <div class="col-md-6 col-lg-3">
+    <div class="col-6 col-md-6 col-lg-3">
       <div class="card border-0 shadow-sm h-100">
         <div class="card-body text-center">
           <div v-if="isLoading" class="py-2">
